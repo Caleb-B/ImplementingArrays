@@ -31,14 +31,22 @@ public class Arrays
 	{  // begin main
 	// ***** declaration of constants *****
 	
-		final int MAXSIZE = 100;
+		final int MAXSIZE = 1000;
 		
 	// ***** declaration of variables *****
-	
-		Random Rand = new Random();
-		int[] list = new int[100];
-		int i = 0;
-		int rand = Rand.nextInt(50);
+		
+		String strin;				// string data input from keyboard
+    	String strout;				// processed info string to be output
+    	String bannerOut;			// string to print banner to message dialogs
+    	
+    	String prompt;				// prompt for use in input dialogs
+    	
+    	String delim = "[ :]+";                 // delimiter string for splitting input string
+        String nl = System.lineSeparator();     // new line character
+        
+        int[] list = new int[MAXSIZE];  							// declare and instatiate the array
+       
+        int count = 0;
 		
 	// ***** create objects *****
 		
@@ -46,14 +54,27 @@ public class Arrays
 		
 	// create instances of objects for i/o and formatting
         
-    	PrintWriter fout = new PrintWriter(new BufferedWriter(new FileWriter("arrayData.txt")));
+    	PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("arrayData.txt")));
     	
-    	BufferedReader fin = new BufferedReader(new FileReader("arrayData.txt"));
+    	listFile(out);
+    	
+		out.close();
+    	
+    	BufferedReader fin = null;		// file buffer
+        
+        try{
+        	fin = new BufferedReader(new FileReader("arrayData.txt"));
+        } // end try
+        catch(FileNotFoundException e){
+            JOptionPane.showMessageDialog(null,"file not found");
+        } // end catch
+        
+    	PrintWriter fout = new PrintWriter(new BufferedWriter(new FileWriter("testOut.txt")));
     	
 	// ***** create input stream *****
 	
 		//ConsoleReader console = new ConsoleReader(System.in);
-		
+    	
 	// ***** Print Banner *****
 	
 		Printer.printBanner("Assignment 1: Implementing Arrays");
@@ -63,16 +84,12 @@ public class Arrays
 		// all input is gathered in this section
 		// remember to put ConsoleReader.class into the
 		// same folder.
+		
+		count = loadList(list, fin);
+        
+        System.out.println("array length: " + count);
 	
 	// ***** processing *****
-	
-		while (i < 950 + rand) {
-			fout.write(Integer.toString(1 + Rand.nextInt(100)) + " ");
-			if (i % 5 == 4) {
-				fout.write("\n");
-			}
-			i ++;
-		}
 		
 	// ***** output *****
 	
@@ -86,4 +103,69 @@ public class Arrays
 		fout.close();
 	
 	}  // end main	
+	
+	//************************************************
+    // Purpose: Write a list with random length
+	//			between 950 and 1000 to data file
+    // Interface: IN: input print writer
+    // Returns: none
+    // *****************************************************
+	public static void listFile(PrintWriter p) {
+		Random Rand = new Random();
+		int rand = 950 + Rand.nextInt(50);
+		
+		int length = 0;
+		
+		while (length < rand) {
+			p.write((1 + Rand.nextInt(100)) + " ");
+			if (length % 5 == 4) {
+				p.write("\n");
+			}
+			length++;
+		}
+	}  // end list file
+	
+	//************************************************
+    // Purpose: Write a list from the data file
+    // Interface: IN: input buffered reader, list
+    // Returns: n, actual number of list values
+    // *****************************************************
+	public static int loadList(int[] l, BufferedReader f) throws IOException {
+		int n = 0;
+		int c = 0;
+		
+		String[] tokens;
+		String delimit = "[ ]+";
+		
+		String sIn = f.readLine();   	// prime loop
+		
+        while (sIn != null) {
+        	tokens = sIn.split(delimit);
+        	for (int i = 0; i < 5; i++) {
+        		try {
+        			l[n] = Integer.parseInt(tokens[i]);
+            		c = Integer.parseInt(tokens[i]);
+            	}
+            	catch(ArrayIndexOutOfBoundsException e){
+            		JOptionPane.showMessageDialog(null,"index out of range");
+            		//System.out.println(n);
+            		break;
+            	}
+        		//System.out.println(l[n]);
+            	n++;				// count actual array elements
+        	}
+        	
+        	try {
+        		l[n] = c;
+        	}
+        	catch(ArrayIndexOutOfBoundsException e){
+        		break;
+        	}
+        	// System.out.println(strin);
+        	sIn = f.readLine();
+        	
+        } // end eof
+		return n;
+	}  // end of load list
+	
 }  // end class
