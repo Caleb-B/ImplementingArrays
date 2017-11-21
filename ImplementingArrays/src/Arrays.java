@@ -90,7 +90,15 @@ public class Arrays
         System.out.println("array length: " + count);
 	
 	// ***** processing *****
+        
+        int[] fist = frequencyList(list, count);
 		
+        int val = getInt();
+        
+        int n = getIndex(fist, val);
+        
+        System.out.println("frequency: " + n);
+        
 	// ***** output *****
 	
 		// all formatted ouput is printed in this section
@@ -108,7 +116,7 @@ public class Arrays
     // Purpose: Write a list with random length
 	//			between 950 and 1000 to data file
     // Interface: IN: input print writer
-    // Returns: none
+    // Returns: None
     // *****************************************************
 	public static void listFile(PrintWriter p) {
 		Random Rand = new Random();
@@ -167,5 +175,44 @@ public class Arrays
         } // end eof
 		return n;
 	}  // end of load list
+	
+	//************************************************
+    // Purpose: Create a list of frequencies from
+	//			another list
+    // Interface: IN: input list and total number
+	//					of values in list
+    // Returns: f, list of frequencies
+    // *****************************************************
+	public static int[] frequencyList(int[] l, int c) {
+		int[] f = new int[100];
+		
+		for (int i = 0; i < c; i++) {
+			f[l[i] - 1]++;
+		}
+		//for (int i = 0; i < 100; i++) {
+		//	System.out.println(f[i]);
+		//}
+		
+		return f;
+	}  // end of frequency list
+	
+	//************************************************
+    // Purpose:	Returns a value in a list at the
+	//			given index
+    // Interface: IN: input list, index
+    // Returns: f[i - 1], value at index i - 1 in list f
+    // *****************************************************
+	public static int getIndex(int[] f, int i) {
+		return f[i - 1];
+	}  // end get frequency
+	
+	//************************************************
+    // Purpose: Return an integer value from the keyboard
+    // Interface: IN: None
+    // Returns: integer value
+    // *****************************************************
+	public static int getInt() {
+		return Integer.parseInt(JOptionPane.showInputDialog("enter value"));
+	}  // end get int
 	
 }  // end class
