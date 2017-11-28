@@ -93,9 +93,17 @@ public class Arrays
         
         int[] fist = frequencyList(list, count);
 		
-        int val = getInt();
+        int val = getInt("enter value");
         
         int n = getIndex(fist, val);
+        
+        int min = getInt("enter start of range");
+        
+        int max = getInt("enter end of range");
+        
+        System.out.println(max - min);
+        
+        int[] frange = getRange(fist, max, min);
         
         System.out.println("frequency: " + n);
         
@@ -104,6 +112,10 @@ public class Arrays
 		// all formatted ouput is printed in this section
 		
 		fout.write("");
+		
+		printList(list, count);
+		printList(fist, 100);
+		printList(frange, max - min);
 
 	// ***** closing message *****
 	
@@ -211,8 +223,42 @@ public class Arrays
     // Interface: IN: None
     // Returns: integer value
     // *****************************************************
-	public static int getInt() {
-		return Integer.parseInt(JOptionPane.showInputDialog("enter value"));
+	public static int getInt(String output) {
+		return Integer.parseInt(JOptionPane.showInputDialog(output));
 	}  // end get int
+	
+	//************************************************
+    // Purpose: Return a list of frequencies of values
+	//			over the given range
+    // Interface: IN: list of frequencies (f),
+	//					max value in range,
+	//					min value in range
+    // Returns: out, fr
+    // *****************************************************
+	public static int[] getRange(int[] f, int ma, int mi) {
+		int[] fr = new int[ma - mi];
+		
+		for (int i = mi; i < ma; i++) {
+			System.out.println(i - mi);
+			fr[i - mi] = f[i];
+		}
+		
+		return fr;
+	}
+	
+	//************************************************
+    // Purpose: print array to console and file
+    // Interface: IN: address of array, actual size of array
+    //					list[], count
+    // Returns: none
+    // *****************************************************
+    public static void printList(int[] l, int n) {
+    	System.out.println("printing List!");
+    	
+    	for (int i = 0; i < n; i++) {
+    		System.out.println(l[i]);
+    		//fout.println(l[i]);
+    	} // end of int i = 0
+    } // end printList
 	
 }  // end class
